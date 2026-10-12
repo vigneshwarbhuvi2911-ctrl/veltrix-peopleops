@@ -1,0 +1,26 @@
+services:
+  peopleops:
+    build: .
+    image: veltrix-peopleops:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      # The evaluation data (corpus/, manifest.json, veltrix.db). Read-write: leave requests are written to the DB.
+      - ./data:/app/data
+    environment:
+      # Values come from your shell or from a .env file next to this file (copy .env.example).
+      CORPUS_DIR: ${CORPUS_DIR:-./data/corpus}
+      MANIFEST_PATH: ${MANIFEST_PATH:-./data/manifest.json}
+      DB_PATH: ${DB_PATH:-./data/veltrix.db}
+      APP_TODAY: ${APP_TODAY:-}
+      LLM_PROVIDER: ${LLM_PROVIDER:-openai}
+      LLM_MODEL: ${LLM_MODEL:-}
+      LLM_TIMEOUT_SECONDS: ${LLM_TIMEOUT_SECONDS:-12}
+      LLM_BASE_URL: ${LLM_BASE_URL:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      CORPUS_TOKEN_BUDGET: ${CORPUS_TOKEN_BUDGET:-2800}
+      INDEX_PATH: ${INDEX_PATH:-/app/.index/index.json}
+      OCR_LANG: ${OCR_LANG:-eng}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      LOG_FILE: ${LOG_FILE:-}
+    restart: unless-stopped
