@@ -1,0 +1,8 @@
+# Evaluation data is supplied separately and must not be committed
+/data/
+.env
+.index/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.log

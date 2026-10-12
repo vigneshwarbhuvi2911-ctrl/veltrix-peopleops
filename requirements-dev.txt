@@ -1,0 +1,4 @@
+-r requirements.txt
+pytest==8.3.3
+httpx==0.27.2      # used by starlette.testclient
+reportlab==4.2.5   # builds the synthetic PDF fixtures
