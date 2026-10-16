@@ -21,7 +21,7 @@ from app.logging_setup import log_event
 log = logging.getLogger(__name__)
 
 DEFAULT_MODELS = {
-    "openai": "gpt-4.1-mini",
+    "openai": "gpt-4.1",
 }
 
 

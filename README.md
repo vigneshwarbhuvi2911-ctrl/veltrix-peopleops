@@ -19,7 +19,7 @@ curl -s localhost:8000/chat -H 'X-Employee-Id: E2004' -H 'Content-Type: applicat
      -d '{"session_id":"demo-1","message":"How many sick days do I get per year?"}'
 ```
 
-The LLM provider is OpenAI (`LLM_PROVIDER=openai`, default model `gpt-4.1-mini`; override with
+The LLM provider is OpenAI (`LLM_PROVIDER=openai`, default model `gpt-4.1`; override with
 `LLM_MODEL`). Set `OPENAI_API_KEY` in `.env`.
 Every variable is listed in `.env.example`.
 
