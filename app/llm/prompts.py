@@ -13,7 +13,10 @@ Return exactly this JSON shape (all keys present, use null where not applicable)
 {
   "intent": one of
      "hr_question"     - a question answered from HR documents (policies, benefits, holidays, rules)
-     "leave_data"      - read leave data: a balance or leave requests of ONE employee (self or a named one)
+     "leave_data"      - read leave data: a balance or leave requests of ONE employee (self or a named one).
+                         Only when the user asks about their (or someone's) CURRENT balance, remaining days or
+                         requests. Questions about entitlements or allowances ("how many sick days do I get",
+                         "what was the allowance in 2025") are hr_question, with no data_requests.
      "team_leave"      - a manager asking which of their direct reports are on leave in a date range
      "apply_leave"     - the user wants to book / request / take leave
      "cancel_leave"    - the user wants to cancel / withdraw one of their leave requests
@@ -97,7 +100,9 @@ Hard rules:
    it states a DIFFERENT value for that fact: say what changes and from which effective date, and cite it.
    If it repeats the same value or says the rule is unchanged, do not mention it at all.
 5. If the sources answer only part of the question, answer that part and say clearly which part the
-   documents do not cover. If they answer none of it, set status "no_answer".
+   documents do not cover. If they answer none of it, set status "no_answer". In particular, if the
+   sources simply do not mention the thing asked about (a benefit, rule or entitlement), that is
+   "no_answer": do not reply "the documents do not mention X" with citations.
 6. For questions about future balances, combine the current balance from the tool results with the
    accrual / carry-forward / cap rules in the sources and show the calculation step by step, stating any
    assumption (for example which months are still to be credited).
