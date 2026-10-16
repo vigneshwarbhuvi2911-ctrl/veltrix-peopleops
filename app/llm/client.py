@@ -98,7 +98,12 @@ class LLMClient:
     def _post(self, url: str, headers: dict, body: dict) -> dict:
         for attempt in range(2):
             started = time.time()
-            resp = self.session.post(url, headers=headers, json=body, timeout=self.timeout_s)
+            try:
+                resp = self.session.post(url, headers=headers, json=body, timeout=self.timeout_s)
+            except requests.RequestException as exc:
+                # Network failure or timeout: surface as LLMError so the chat endpoint answers
+                # with a polite retry message instead of an HTTP 500.
+                raise LLMError(f"{self.provider} unreachable: {type(exc).__name__}") from exc
             if resp.status_code == 400 and self._send_temperature and "temperature" in resp.text.lower():
                 # Some models reject sampling parameters; fall back to provider defaults.
                 self._send_temperature = False

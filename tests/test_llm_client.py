@@ -55,3 +55,17 @@ def test_extract_json_variants():
     assert extract_json('{"a": 1}') == {"a": 1}
     assert extract_json('Sure! {"a": {"b": 2}} done') == {"a": {"b": 2}}
     assert extract_json('```json\n{"a": 1}\n```') == {"a": 1}
+
+
+def test_network_error_becomes_llm_error(monkeypatch):
+    import requests
+
+    class Boom:
+        def post(self, *a, **k):
+            raise requests.ConnectionError("down")
+
+    monkeypatch.setenv("OPENAI_API_KEY", "k")
+    c = LLMClient("openai")
+    c.session = Boom()
+    with pytest.raises(LLMError):
+        c.complete_json("s", "u", corpus_tokens=0, purpose="t", request_id="r")
